@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, Plus, Trash2, Check, Sparkles, MapPin, Clock, Info } from 'lucide-react';
 import { Place, WebsiteSettings, CourseProposal } from '../types';
 import { addSavedProposal } from '../data';
+import { createProposalInFirebase } from '../lib/firebase';
 
 interface ProposeCourseModalProps {
   isOpen: boolean;
@@ -131,6 +132,13 @@ export default function ProposeCourseModal({ isOpen, onClose, settings, onSubmit
         }
       } catch (apiErr) {
         console.warn('API proposal post failed, saving locally:', apiErr);
+      }
+
+      // Save to Firebase Firestore
+      try {
+        await createProposalInFirebase(proposalData);
+      } catch (fbErr) {
+        console.warn('Firebase proposal creation failed:', fbErr);
       }
 
       // Always save locally to ensure consistency across reloads/previews

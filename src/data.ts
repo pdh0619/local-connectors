@@ -15,9 +15,7 @@ const fallbackSettings: WebsiteSettings = {
   approachImage3: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=1200&q=80'
 };
 
-export const DEFAULT_SETTINGS: WebsiteSettings = (initialSettingsJson && typeof initialSettingsJson === 'object' && 'heroTitle' in initialSettingsJson)
-  ? (initialSettingsJson as WebsiteSettings)
-  : fallbackSettings;
+export const DEFAULT_SETTINGS: WebsiteSettings = initialSettingsJson as WebsiteSettings;
 
 const fallbackCourses: TravelCourse[] = [
   {
@@ -332,9 +330,7 @@ const fallbackCourses: TravelCourse[] = [
   }
 ];
 
-export const DEFAULT_COURSES: TravelCourse[] = (Array.isArray(initialCoursesJson) && initialCoursesJson.length > 0)
-  ? (initialCoursesJson as unknown as TravelCourse[])
-  : fallbackCourses;
+export const DEFAULT_COURSES: TravelCourse[] = initialCoursesJson as unknown as TravelCourse[];
 
 const inMemoryStorage: Record<string, string> = {};
 

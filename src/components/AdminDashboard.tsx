@@ -7,6 +7,12 @@ import {
 } from 'lucide-react';
 import { TravelCourse, Place, WebsiteSettings, CourseProposal } from '../types';
 import { getSavedProposals, saveProposals } from '../data';
+import { 
+  fetchProposalsFromFirebase, 
+  updateProposalInFirebase, 
+  deleteProposalFromFirebase,
+  subscribeProposalsFromFirebase
+} from '../lib/firebase';
 import NetlifySyncModal from './NetlifySyncModal';
 
 interface AdminDashboardProps {
@@ -176,22 +182,31 @@ export default function AdminDashboard({ courses, settings, onSaveSettings, onSa
   const fetchProposals = async () => {
     setIsLoadingProposals(true);
     let serverProposals: CourseProposal[] = [];
+    let fbProposals: CourseProposal[] = [];
+
+    try {
+      fbProposals = await fetchProposalsFromFirebase();
+    } catch (e) {
+      console.warn('Error fetching proposals from Firebase:', e);
+    }
+
     try {
       const response = await fetch('/api/proposals');
       if (response.ok) {
         serverProposals = await response.json();
       }
     } catch (e) {
-      console.error('Error fetching proposals:', e);
+      console.error('Error fetching proposals from server API:', e);
     } finally {
       setIsLoadingProposals(false);
     }
 
     const localProposals = getSavedProposals();
-    // Merge server and local proposals by ID, preserving local or server items
+    // Merge server, firebase, and local proposals by ID
     const mergedMap = new Map<string, CourseProposal>();
     localProposals.forEach(p => mergedMap.set(p.id, p));
     serverProposals.forEach(p => mergedMap.set(p.id, p));
+    fbProposals.forEach(p => mergedMap.set(p.id, p));
 
     const finalProposals = Array.from(mergedMap.values()).sort((a, b) => 
       (b.createdAt || '').localeCompare(a.createdAt || '')
@@ -203,6 +218,24 @@ export default function AdminDashboard({ courses, settings, onSaveSettings, onSa
 
   useEffect(() => {
     fetchProposals();
+
+    // Subscribe to real-time proposals from Firebase
+    const unsubscribe = subscribeProposalsFromFirebase((fbList) => {
+      if (fbList) {
+        setProposals(prev => {
+          const map = new Map<string, CourseProposal>();
+          prev.forEach(p => map.set(p.id, p));
+          fbList.forEach(p => map.set(p.id, p));
+          const updated = Array.from(map.values()).sort((a, b) => 
+            (b.createdAt || '').localeCompare(a.createdAt || '')
+          );
+          saveProposals(updated);
+          return updated;
+        });
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
@@ -217,6 +250,9 @@ export default function AdminDashboard({ courses, settings, onSaveSettings, onSa
     setProposals(updatedList);
     saveProposals(updatedList);
 
+    // Sync to Firebase
+    updateProposalInFirebase(id, { status });
+
     try {
       const response = await fetch(`/api/proposals/${id}`, {
         method: 'PUT',
@@ -228,7 +264,7 @@ export default function AdminDashboard({ courses, settings, onSaveSettings, onSa
       }
     } catch (e) {
       console.error('Error updating proposal status remotely:', e);
-      triggerToast('로컬 제안서 상태가 업데이트되었습니다.');
+      triggerToast('로컬/파이어베이스 제안서 상태가 업데이트되었습니다.');
     }
   };
 
@@ -240,6 +276,9 @@ export default function AdminDashboard({ courses, settings, onSaveSettings, onSa
     setProposals(filteredList);
     saveProposals(filteredList);
 
+    // Delete from Firebase
+    deleteProposalFromFirebase(id);
+
     try {
       const response = await fetch(`/api/proposals/${id}`, {
         method: 'DELETE'
@@ -249,7 +288,7 @@ export default function AdminDashboard({ courses, settings, onSaveSettings, onSa
       }
     } catch (e) {
       console.error('Error deleting proposal remotely:', e);
-      triggerToast('로컬 제안서가 삭제되었습니다.');
+      triggerToast('제안서가 삭제되었습니다.');
     }
   };
 

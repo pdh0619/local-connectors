@@ -11,6 +11,15 @@ import { TravelCourse, WebsiteSettings } from './types';
 import { 
   getSavedSettings, saveSettings, getSavedCourses, saveCourses, resetToDefaults 
 } from './data';
+import { 
+  subscribeCoursesFromFirebase, 
+  seedInitialCoursesToFirebase, 
+  incrementCourseLikeInFirebase, 
+  incrementCourseViewInFirebase, 
+  fetchSettingsFromFirebase, 
+  saveSettingsToFirebase,
+  updateCourseInFirebase
+} from './lib/firebase';
 import { Compass, Github, Instagram, HelpCircle, Mail, Sparkles, Check, X } from 'lucide-react';
 
 export default function App() {
@@ -84,30 +93,37 @@ export default function App() {
     }
   }, [settings.fontStyle]);
 
-  // Load courses and settings from server API or static JSON files (for Netlify/GitHub Pages)
+  // Load courses and settings from Firebase, server API, or static JSON files
   useEffect(() => {
     const timestamp = Date.now();
 
-    // Sync settings from server or static settings.json
-    fetch('/api/settings')
-      .then(res => {
-        if (res.ok) return res.json();
-        return fetch(`/settings.json?v=${timestamp}`).then(r => {
-          if (r.ok) return r.json();
-          throw new Error('Failed to load settings.json');
-        });
-      })
-      .then(data => {
-        if (data && typeof data === 'object' && Object.keys(data).length > 0) {
-          setSettings(data);
-          saveSettings(data); // Sync local cache
-        }
-      })
-      .catch(err => {
-        console.log('Using local cached settings:', err);
-      });
+    // 1. Sync settings from Firebase first, then API/static as fallback
+    fetchSettingsFromFirebase().then(fbSettings => {
+      if (fbSettings && Object.keys(fbSettings).length > 0) {
+        setSettings(fbSettings);
+        saveSettings(fbSettings);
+      } else {
+        // Fallback to API / static
+        fetch('/api/settings')
+          .then(res => {
+            if (res.ok) return res.json();
+            return fetch(`/settings.json?v=${timestamp}`).then(r => {
+              if (r.ok) return r.json();
+              throw new Error('Failed to load settings.json');
+            });
+          })
+          .then(data => {
+            if (data && typeof data === 'object' && Object.keys(data).length > 0) {
+              setSettings(data);
+              saveSettings(data);
+              saveSettingsToFirebase(data);
+            }
+          })
+          .catch(err => console.log('Using local cached settings:', err));
+      }
+    });
 
-    // Sync courses from server or static courses.json
+    // 2. Fetch initial courses and seed to Firebase if empty
     fetch('/api/courses')
       .then(res => {
         if (res.ok) return res.json();
@@ -116,15 +132,22 @@ export default function App() {
           throw new Error('Failed to load courses.json');
         });
       })
-      .then(data => {
-        if (Array.isArray(data) && data.length > 0) {
-          setCourses(data);
-          saveCourses(data); // Sync local cache
+      .then(initialData => {
+        if (Array.isArray(initialData) && initialData.length > 0) {
+          seedInitialCoursesToFirebase(initialData);
         }
       })
-      .catch(err => {
-        console.log('Using local cached courses:', err);
-      });
+      .catch(err => console.log('Initial course fetch fallback:', err));
+
+    // 3. Real-time Firebase subscription for courses
+    const unsubscribe = subscribeCoursesFromFirebase((fbCourses) => {
+      if (fbCourses && fbCourses.length > 0) {
+        setCourses(fbCourses);
+        saveCourses(fbCourses);
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
 
   // Toast timer auto-hide
@@ -141,6 +164,7 @@ export default function App() {
   const handleSaveSettings = (newSettings: WebsiteSettings) => {
     setSettings(newSettings);
     saveSettings(newSettings);
+    saveSettingsToFirebase(newSettings);
 
     // Sync to server
     fetch('/api/settings', {
@@ -154,6 +178,7 @@ export default function App() {
   const handleSaveCourses = (newCourses: TravelCourse[]) => {
     setCourses(newCourses);
     saveCourses(newCourses);
+    newCourses.forEach(c => updateCourseInFirebase(c));
     
     // Sync to server
     fetch('/api/courses', {
@@ -184,6 +209,9 @@ export default function App() {
     setSelectedCourseId(null);
     setCurrentTab('explorer');
 
+    saveSettingsToFirebase(defaultSettings);
+    defaultCourses.forEach(c => updateCourseInFirebase(c));
+
     // Reset settings on server
     fetch('/api/settings', {
       method: 'PUT',
@@ -213,6 +241,9 @@ export default function App() {
     setCourses(updated);
     saveCourses(updated);
 
+    // Sync to Firebase
+    incrementCourseViewInFirebase(id);
+
     // Sync to server (authoritative update)
     fetch(`/api/courses/${id}/view`, {
       method: 'POST'
@@ -239,6 +270,9 @@ export default function App() {
     });
     setCourses(updated);
     saveCourses(updated);
+
+    // Sync to Firebase
+    incrementCourseLikeInFirebase(id);
 
     // Sync to server (authoritative update)
     fetch(`/api/courses/${id}/like`, {
