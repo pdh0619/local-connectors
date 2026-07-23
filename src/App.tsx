@@ -84,13 +84,18 @@ export default function App() {
     }
   }, [settings.fontStyle]);
 
-  // Load courses and settings from server-side database on mount, keeping localStorage as local fallback
+  // Load courses and settings from server API or static JSON files (for Netlify/GitHub Pages)
   useEffect(() => {
-    // Sync settings from server
+    const timestamp = Date.now();
+
+    // Sync settings from server or static settings.json
     fetch('/api/settings')
       .then(res => {
         if (res.ok) return res.json();
-        throw new Error('Failed to load settings from server');
+        return fetch(`/settings.json?v=${timestamp}`).then(r => {
+          if (r.ok) return r.json();
+          throw new Error('Failed to load settings.json');
+        });
       })
       .then(data => {
         if (data && typeof data === 'object' && Object.keys(data).length > 0) {
@@ -99,14 +104,17 @@ export default function App() {
         }
       })
       .catch(err => {
-        console.error('Failed to sync settings from server:', err);
+        console.log('Using local cached settings:', err);
       });
 
-    // Sync courses from server
+    // Sync courses from server or static courses.json
     fetch('/api/courses')
       .then(res => {
         if (res.ok) return res.json();
-        throw new Error('Failed to load courses from server');
+        return fetch(`/courses.json?v=${timestamp}`).then(r => {
+          if (r.ok) return r.json();
+          throw new Error('Failed to load courses.json');
+        });
       })
       .then(data => {
         if (Array.isArray(data) && data.length > 0) {
@@ -115,7 +123,7 @@ export default function App() {
         }
       })
       .catch(err => {
-        console.error('Failed to sync courses from server:', err);
+        console.log('Using local cached courses:', err);
       });
   }, []);
 

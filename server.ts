@@ -65,6 +65,15 @@ function getCourses() {
 
 function saveCourses(courses: any[]) {
   fs.writeFileSync(COURSES_FILE, JSON.stringify(courses, null, 2), 'utf-8');
+  const publicPath = path.join(process.cwd(), 'public', 'courses.json');
+  try {
+    if (!fs.existsSync(path.join(process.cwd(), 'public'))) {
+      fs.mkdirSync(path.join(process.cwd(), 'public'), { recursive: true });
+    }
+    fs.writeFileSync(publicPath, JSON.stringify(courses, null, 2), 'utf-8');
+  } catch (e) {
+    // Ignore error if public dir write fails
+  }
 }
 
 function getSettings() {
@@ -78,6 +87,15 @@ function getSettings() {
 
 function saveSettings(settings: any) {
   fs.writeFileSync(SETTINGS_FILE, JSON.stringify(settings, null, 2), 'utf-8');
+  const publicPath = path.join(process.cwd(), 'public', 'settings.json');
+  try {
+    if (!fs.existsSync(path.join(process.cwd(), 'public'))) {
+      fs.mkdirSync(path.join(process.cwd(), 'public'), { recursive: true });
+    }
+    fs.writeFileSync(publicPath, JSON.stringify(settings, null, 2), 'utf-8');
+  } catch (e) {
+    // Ignore error if public dir write fails
+  }
 }
 
 // API Routes

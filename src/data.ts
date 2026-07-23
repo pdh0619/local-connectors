@@ -1,6 +1,8 @@
 import { TravelCourse, WebsiteSettings, CourseProposal } from './types';
+import initialSettingsJson from '../settings.json';
+import initialCoursesJson from '../courses.json';
 
-export const DEFAULT_SETTINGS: WebsiteSettings = {
+const fallbackSettings: WebsiteSettings = {
   themeColor: 'navy',
   fontStyle: 'serif',
   logoText: 'LOCAL CONNECTORS',
@@ -13,7 +15,11 @@ export const DEFAULT_SETTINGS: WebsiteSettings = {
   approachImage3: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=1200&q=80'
 };
 
-export const DEFAULT_COURSES: TravelCourse[] = [
+export const DEFAULT_SETTINGS: WebsiteSettings = (initialSettingsJson && typeof initialSettingsJson === 'object' && 'heroTitle' in initialSettingsJson)
+  ? (initialSettingsJson as WebsiteSettings)
+  : fallbackSettings;
+
+const fallbackCourses: TravelCourse[] = [
   {
     id: 'course-incheon-yeongjong',
     title: '코스 ① 영종도 — 바다와 로컬을 잇는 여행',
@@ -326,6 +332,10 @@ export const DEFAULT_COURSES: TravelCourse[] = [
   }
 ];
 
+export const DEFAULT_COURSES: TravelCourse[] = (Array.isArray(initialCoursesJson) && initialCoursesJson.length > 0)
+  ? (initialCoursesJson as unknown as TravelCourse[])
+  : fallbackCourses;
+
 const inMemoryStorage: Record<string, string> = {};
 
 function safeGetItem(key: string): string | null {
@@ -358,6 +368,15 @@ export function getSavedSettings(): WebsiteSettings {
 
 export function saveSettings(settings: WebsiteSettings): void {
   safeSetItem('local_connectors_settings', JSON.stringify(settings));
+  try {
+    fetch('/api/settings', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(settings)
+    }).catch(() => {});
+  } catch (e) {
+    // Ignore
+  }
 }
 
 export function getSavedCourses(): TravelCourse[] {
@@ -379,6 +398,15 @@ export function getSavedCourses(): TravelCourse[] {
 
 export function saveCourses(courses: TravelCourse[]): void {
   safeSetItem('local_connectors_courses', JSON.stringify(courses));
+  try {
+    fetch('/api/courses', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(courses)
+    }).catch(() => {});
+  } catch (e) {
+    // Ignore
+  }
 }
 
 export function getSavedProposals(): CourseProposal[] {

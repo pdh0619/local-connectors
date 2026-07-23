@@ -3,10 +3,11 @@ import { motion } from 'motion/react';
 import { 
   Paintbrush, FileText, Plus, Trash2, Edit, Save, Undo2, 
   Sparkles, Link2, Search, Eye, Heart, X, ChevronUp, ChevronDown, 
-  Check, FileUp, Info, HelpCircle, MapPin, Clock, Tag
+  Check, FileUp, Info, HelpCircle, MapPin, Clock, Tag, Globe
 } from 'lucide-react';
 import { TravelCourse, Place, WebsiteSettings, CourseProposal } from '../types';
 import { getSavedProposals, saveProposals } from '../data';
+import NetlifySyncModal from './NetlifySyncModal';
 
 interface AdminDashboardProps {
   courses: TravelCourse[];
@@ -164,6 +165,9 @@ const AI_PRESETS: Record<string, {
 export default function AdminDashboard({ courses, settings, onSaveSettings, onSaveCourses, onExit }: AdminDashboardProps) {
   // Navigation internal tab
   const [activeTab, setActiveTab] = useState<'visual' | 'posts' | 'proposals' | 'editor'>('visual');
+
+  // Netlify / GitHub Sync Modal state
+  const [isNetlifySyncModalOpen, setIsNetlifySyncModalOpen] = useState(false);
 
   // Proposal States
   const [proposals, setProposals] = useState<CourseProposal[]>(() => getSavedProposals());
@@ -619,12 +623,22 @@ export default function AdminDashboard({ courses, settings, onSaveSettings, onSa
             </p>
           </div>
 
-          <button
-            onClick={onExit}
-            className="mt-4 md:mt-0 px-4 py-2 border border-stone-300 rounded-lg text-xs font-medium text-stone-700 hover:text-stone-900 bg-white hover:bg-stone-50 hover:shadow-sm transition-all cursor-pointer"
-          >
-            대시보드 종료 후 매거진 보기
-          </button>
+          <div className="mt-4 md:mt-0 flex flex-wrap items-center gap-2">
+            <button
+              onClick={() => setIsNetlifySyncModalOpen(true)}
+              className="px-4 py-2 bg-stone-900 hover:bg-stone-800 text-amber-300 rounded-lg text-xs font-semibold flex items-center space-x-1.5 shadow-md transition-all cursor-pointer border border-stone-800"
+            >
+              <Globe className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+              <span>Netlify / GitHub 배포 동기화 (JSON)</span>
+            </button>
+
+            <button
+              onClick={onExit}
+              className="px-4 py-2 border border-stone-300 rounded-lg text-xs font-medium text-stone-700 hover:text-stone-900 bg-white hover:bg-stone-50 hover:shadow-sm transition-all cursor-pointer"
+            >
+              대시보드 종료 후 매거진 보기
+            </button>
+          </div>
         </div>
 
         {/* Dashboard Tabs & Navigation */}
@@ -1821,6 +1835,19 @@ export default function AdminDashboard({ courses, settings, onSaveSettings, onSa
 
           </div>
         )}
+
+        {/* Netlify / GitHub Deployment Sync Modal */}
+        <NetlifySyncModal
+          isOpen={isNetlifySyncModalOpen}
+          onClose={() => setIsNetlifySyncModalOpen(false)}
+          settings={settings}
+          courses={courses}
+          onImportData={(newSettings, newCourses) => {
+            onSaveSettings(newSettings);
+            onSaveCourses(newCourses);
+            triggerToast('JSON 설정 데이터가 성공적으로 복구 및 업데이트되었습니다!');
+          }}
+        />
 
         {/* Global Toast Alert */}
         {toastMessage && (
