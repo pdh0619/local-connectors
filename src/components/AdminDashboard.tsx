@@ -6,6 +6,7 @@ import {
   Check, FileUp, Info, HelpCircle, MapPin, Clock, Tag
 } from 'lucide-react';
 import { TravelCourse, Place, WebsiteSettings, CourseProposal } from '../types';
+import { getSavedProposals, saveProposals } from '../data';
 
 interface AdminDashboardProps {
   courses: TravelCourse[];
@@ -165,23 +166,40 @@ export default function AdminDashboard({ courses, settings, onSaveSettings, onSa
   const [activeTab, setActiveTab] = useState<'visual' | 'posts' | 'proposals' | 'editor'>('visual');
 
   // Proposal States
-  const [proposals, setProposals] = useState<CourseProposal[]>([]);
+  const [proposals, setProposals] = useState<CourseProposal[]>(() => getSavedProposals());
   const [isLoadingProposals, setIsLoadingProposals] = useState(false);
 
   const fetchProposals = async () => {
     setIsLoadingProposals(true);
+    let serverProposals: CourseProposal[] = [];
     try {
       const response = await fetch('/api/proposals');
       if (response.ok) {
-        const data = await response.json();
-        setProposals(data);
+        serverProposals = await response.json();
       }
     } catch (e) {
       console.error('Error fetching proposals:', e);
     } finally {
       setIsLoadingProposals(false);
     }
+
+    const localProposals = getSavedProposals();
+    // Merge server and local proposals by ID, preserving local or server items
+    const mergedMap = new Map<string, CourseProposal>();
+    localProposals.forEach(p => mergedMap.set(p.id, p));
+    serverProposals.forEach(p => mergedMap.set(p.id, p));
+
+    const finalProposals = Array.from(mergedMap.values()).sort((a, b) => 
+      (b.createdAt || '').localeCompare(a.createdAt || '')
+    );
+
+    setProposals(finalProposals);
+    saveProposals(finalProposals);
   };
+
+  useEffect(() => {
+    fetchProposals();
+  }, []);
 
   useEffect(() => {
     if (activeTab === 'proposals') {
@@ -190,6 +208,11 @@ export default function AdminDashboard({ courses, settings, onSaveSettings, onSa
   }, [activeTab]);
 
   const handleUpdateProposalStatus = async (id: string, status: 'pending' | 'reviewed' | 'approved' | 'rejected') => {
+    // Update state & localStorage immediately
+    const updatedList = proposals.map(p => p.id === id ? { ...p, status } : p);
+    setProposals(updatedList);
+    saveProposals(updatedList);
+
     try {
       const response = await fetch(`/api/proposals/${id}`, {
         method: 'PUT',
@@ -198,25 +221,31 @@ export default function AdminDashboard({ courses, settings, onSaveSettings, onSa
       });
       if (response.ok) {
         triggerToast(`제안서 상태를 [${status === 'approved' ? '승인' : status === 'rejected' ? '반려' : '검토완료'}] 상태로 변경했습니다.`);
-        fetchProposals();
       }
     } catch (e) {
-      console.error('Error updating proposal status:', e);
+      console.error('Error updating proposal status remotely:', e);
+      triggerToast('로컬 제안서 상태가 업데이트되었습니다.');
     }
   };
 
   const handleDeleteProposal = async (id: string) => {
     if (!window.confirm('이 제안된 코스를 영구적으로 삭제하시겠습니까?')) return;
+    
+    // Remove from state & localStorage immediately
+    const filteredList = proposals.filter(p => p.id !== id);
+    setProposals(filteredList);
+    saveProposals(filteredList);
+
     try {
       const response = await fetch(`/api/proposals/${id}`, {
         method: 'DELETE'
       });
       if (response.ok) {
         triggerToast('제안된 코스를 삭제했습니다.');
-        fetchProposals();
       }
     } catch (e) {
-      console.error('Error deleting proposal:', e);
+      console.error('Error deleting proposal remotely:', e);
+      triggerToast('로컬 제안서가 삭제되었습니다.');
     }
   };
 

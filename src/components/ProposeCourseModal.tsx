@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Plus, Trash2, Check, Sparkles, MapPin, Clock, Info } from 'lucide-react';
-import { Place, WebsiteSettings } from '../types';
+import { Place, WebsiteSettings, CourseProposal } from '../types';
+import { addSavedProposal } from '../data';
 
 interface ProposeCourseModalProps {
   isOpen: boolean;
@@ -96,7 +97,8 @@ export default function ProposeCourseModal({ isOpen, onClose, settings, onSubmit
       image: p.image || 'https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?auto=format&fit=crop&w=800&q=80',
     }));
 
-    const proposalData = {
+    const proposalData: CourseProposal = {
+      id: `proposal-${Date.now()}`,
       title,
       subtitle: subtitle || '방문자가 제안한 정취 가득한 코스',
       description,
@@ -106,21 +108,33 @@ export default function ProposeCourseModal({ isOpen, onClose, settings, onSubmit
       author,
       contact,
       places: compiledPlaces,
-      status: 'pending'
+      status: 'pending',
+      createdAt: new Date().toISOString().split('T')[0],
     };
 
     try {
-      const response = await fetch('/api/proposals', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(proposalData),
-      });
+      let savedProposal = proposalData;
+      try {
+        const response = await fetch('/api/proposals', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(proposalData),
+        });
 
-      if (!response.ok) {
-        throw new Error('서버 전송 중 요류가 발생했습니다.');
+        if (response.ok) {
+          const resData = await response.json();
+          if (resData && resData.id) {
+            savedProposal = resData;
+          }
+        }
+      } catch (apiErr) {
+        console.warn('API proposal post failed, saving locally:', apiErr);
       }
+
+      // Always save locally to ensure consistency across reloads/previews
+      addSavedProposal(savedProposal);
 
       onSubmitSuccess();
       onClose();

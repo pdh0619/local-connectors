@@ -1,4 +1,4 @@
-import { TravelCourse, WebsiteSettings } from './types';
+import { TravelCourse, WebsiteSettings, CourseProposal } from './types';
 
 export const DEFAULT_SETTINGS: WebsiteSettings = {
   themeColor: 'navy',
@@ -381,7 +381,34 @@ export function saveCourses(courses: TravelCourse[]): void {
   safeSetItem('local_connectors_courses', JSON.stringify(courses));
 }
 
+export function getSavedProposals(): CourseProposal[] {
+  const data = safeGetItem('local_connectors_proposals');
+  if (data) {
+    try {
+      const parsed = JSON.parse(data);
+      if (Array.isArray(parsed)) {
+        return parsed;
+      }
+    } catch (e) {
+      return [];
+    }
+  }
+  return [];
+}
+
+export function saveProposals(proposals: CourseProposal[]): void {
+  safeSetItem('local_connectors_proposals', JSON.stringify(proposals));
+}
+
+export function addSavedProposal(proposal: CourseProposal): CourseProposal[] {
+  const existing = getSavedProposals();
+  const updated = [proposal, ...existing.filter(p => p.id !== proposal.id)];
+  saveProposals(updated);
+  return updated;
+}
+
 export function resetToDefaults(): void {
   safeSetItem('local_connectors_settings', JSON.stringify(DEFAULT_SETTINGS));
   safeSetItem('local_connectors_courses', JSON.stringify(DEFAULT_COURSES));
+  safeSetItem('local_connectors_proposals', JSON.stringify([]));
 }
