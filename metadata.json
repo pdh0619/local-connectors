@@ -1,0 +1,8 @@
+{
+  "name": "로컬커넥터즈",
+  "description": "지역의 숨겨진 보석 같은 여행 코스를 소개하고 관리하는 프리미엄 큐레이션 플랫폼",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

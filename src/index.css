@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@300;400;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Cormorant Garamond", "Noto Serif KR", Georgia, serif;
+  --font-sans: "Noto Sans KR", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Cinzel", "Noto Serif KR", serif;
+}
+
+/* Base enhancements for the luxurious Local Connectors style */
+body {
+  background-color: #fcfbfa;
+  color: #1c1917;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1efeb;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c5a880;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #aa8d65;
+}
+
+/* Luxury visual accents */
+.gold-gradient {
+  background: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
+}
+
+.gold-text-gradient {
+  background: linear-gradient(135deg, #bf953f 0%, #e6ca83 50%, #aa771c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Beautiful custom input focus and state */
+.input-premium {
+  background-color: #ffffff;
+  border: 1px solid #e5e1da;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  color: #1c1917;
+  transition: all 0.2s ease-in-out;
+}
+
+.input-premium:focus {
+  outline: none;
+  border-color: #c5a880;
+  box-shadow: 0 0 0 2px rgba(197, 168, 128, 0.15);
+}
+
+/* Custom shadow */
+.shadow-luxury {
+  box-shadow: 0 20px 40px -15px rgba(28, 25, 23, 0.05), 0 1px 3px rgba(28, 25, 23, 0.02);
+}
+
+.shadow-luxury-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.shadow-luxury-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 30px 60px -20px rgba(197, 168, 128, 0.15), 0 1px 3px rgba(28, 25, 23, 0.04);
+}

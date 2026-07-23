@@ -1,0 +1,312 @@
+[
+  {
+    "id": "course-incheon-yeongjong",
+    "title": "코스 ① 영종도 — 바다와 로컬을 잇는 여행",
+    "subtitle": "자연과 지역 상권이 살아 숨 쉬는 영종도의 새로운 숨은 매력 탐방",
+    "description": "인스파이어·을왕리 중심에서 벗어나 마시안해변·구읍뱃터 등 해안 로컬 상권까지 자연스럽게 연결하는 힐링 여정입니다. 바다의 정취와 다채로운 체험 콘텐츠가 가득한 영종도의 숨은 얼굴을 만나보세요.",
+    "thumbnail": "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
+    "region": "인천 영종도 (Yeongjongdo)",
+    "duration": "당일 코스 (7~8시간)",
+    "theme": "자연 · 지역상권",
+    "likes": 0,
+    "views": 0,
+    "author": "영종 로컬 버디",
+    "createdAt": "2026-06-30",
+    "layout": "timeline",
+    "seoTitle": "코스 ① 영종도 — 바다와 로컬을 잇는 여행 | 로컬커넥터즈",
+    "seoDesc": "인스파이어, 마시안해변, 을왕리해수욕장, 영종진공원, 구읍뱃터 및 씨사이드 레일바이크까지 해안 로컬 상권을 활성화하는 영종도 당일치기 분산 코스.",
+    "seoKeywords": "영종도여행, 인스파이어, 마시안해변, 구읍뱃터, 레일바이크, 언더투어리즘, 로컬커넥터즈",
+    "places": [
+      {
+        "id": "place-yeongjong-1",
+        "name": "인스파이어 리조트",
+        "category": "리조트/랜드마크",
+        "time": "10:00 AM",
+        "description": "코스의 출발 랜드마크입니다. 대형 리조트의 압도적이고 화려한 조형 경관 및 디지털 미디어를 감상하며 여정을 산뜻하게 여는 초입 앵커 스팟입니다.",
+        "image": "https://images.unsplash.com/photo-1540959733332-eab4deceeaf7?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 중구 공항문화로 127",
+        "link": "https://map.naver.com"
+      },
+      {
+        "id": "place-yeongjong-2",
+        "name": "마시안해변",
+        "category": "자연/갯벌/노을",
+        "time": "11:30 AM",
+        "description": "관광객이 적어 한적하고 조용한 서정적인 해변입니다. 아름다운 갯벌과 낙조 명소로, 인스파이어 인근이지만 아직 저평가된 훌륭한 언더투어리즘 추천 명소입니다.",
+        "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 중구 마시란로 118",
+        "link": "https://map.naver.com"
+      },
+      {
+        "id": "place-yeongjong-3",
+        "name": "을왕리해수욕장",
+        "category": "해수욕장/골목길",
+        "time": "01:00 PM",
+        "description": "오래된 명성을 자랑하는 인천의 대표 랜드마크 해변입니다. 해안 산책로를 걸어보고 전통 골목 상점과 활기찬 포차거리를 둘러보며 지역의 삶의 냄새를 맡습니다.",
+        "image": "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 중구 을왕로 13",
+        "link": "https://map.naver.com"
+      },
+      {
+        "id": "place-yeongjong-4",
+        "name": "영종진공원 · 구읍뱃터",
+        "category": "공원/로컬식음",
+        "time": "03:00 PM",
+        "description": "옛 연안 여객선이 드나들던 정겨운 정취가 녹아 있는 포구 상권입니다. 로컬 수산시장과 어시장 횟집들이 밀집되어 실제 맛있는 식사와 소비가 이어지는 코스의 핵심 상생 스팟입니다.",
+        "image": "https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 중구 은하수로 12",
+        "link": "https://map.naver.com"
+      },
+      {
+        "id": "place-yeongjong-5",
+        "name": "씨사이드 레일바이크",
+        "category": "액티비티/해안선",
+        "time": "05:00 PM",
+        "description": "해안선을 따라 시원한 바다 바람을 가르며 달리는 힐링형 철길 자전거 액티비티입니다. 코스를 평온하게 매듭지으며 예쁜 노을 사진을 남기기 좋습니다.",
+        "image": "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 중구 구읍로 75",
+        "link": "https://map.naver.com"
+      }
+    ]
+  },
+  {
+    "id": "course-incheon-songdo",
+    "title": "코스 ② 송도 — 미래도시와 로컬 공간 탐방",
+    "subtitle": "센트럴파크 편중을 넘어 기하학적 예술 건축과 커낼워크 상권으로 이어지는 여정",
+    "description": "센트럴파크에 쏠렸던 인파를 트라이보울과 커낼워크로 분산하여 깊이 있는 공학적 도시 건축을 향유하고, 친근한 수로형 테라스 상권에서 상생 소비를 일으키는 이색적인 미래 테마입니다.",
+    "thumbnail": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=1200&q=80",
+    "region": "인천 송도 (Songdo)",
+    "duration": "당일 코스 (6~7시간)",
+    "theme": "미래도시 · 건축",
+    "likes": 0,
+    "views": 0,
+    "author": "도시 미학 저널리스트",
+    "createdAt": "2026-06-30",
+    "layout": "gallery",
+    "seoTitle": "코스 ② 송도 — 미래도시와 로컬 공간 탐방 | 로컬커넥터즈",
+    "seoDesc": "송도 G타워 전망대, 센트럴파크, 수상택시, 송도 한옥마을, 트라이보울 및 이국적인 커낼워크 수변 테라스를 연계한 건축 디자인 도보 코스.",
+    "seoKeywords": "송도여행, 센트럴파크, 트라이보울, 송도한옥마을, 커낼워크, 수상택시, 송도G타워",
+    "places": [
+      {
+        "id": "place-songdo-1",
+        "name": "G타워 전망대",
+        "category": "전망대/도시조망",
+        "time": "10:00 AM",
+        "description": "송도국제도시 전역과 인천대교, 드넓은 서해 갯벌을 360도 공중에서 조망하는 멋진 전망대로, 여정의 지리적 전경을 깨우치는 최고의 도입부 스팟입니다.",
+        "image": "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 연수구 아트센터대로 175",
+        "link": "https://map.naver.com"
+      },
+      {
+        "id": "place-songdo-2",
+        "name": "송도 센트럴파크",
+        "category": "공원/수변공간",
+        "time": "11:30 AM",
+        "description": "대한민국 최초의 해수 공원으로, 송도를 지탱하는 대형 랜드마크입니다. 조각상과 예술품, 기하학적 빌딩들의 어울림을 짧고 강렬하게 누리는 산책을 즐깁니다.",
+        "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 연수구 컨벤시아대로 160",
+        "link": "https://map.naver.com"
+      },
+      {
+        "id": "place-songdo-3",
+        "name": "센트럴파크 수상택시",
+        "category": "체험/해수이동",
+        "time": "01:30 PM",
+        "description": "공원을 세로지르는 시원한 바닷물 인공 수로 위를 가르는 소형 친환경 수상택시입니다. 단순히 걷는 것에서 벗어나 수면 위에서 빌딩숲을 우러러보는 낭만적인 이동형 이색 체험입니다.",
+        "image": "https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 연수구 송도동 24-5",
+        "link": "https://map.naver.com"
+      },
+      {
+        "id": "place-songdo-4",
+        "name": "송도 한옥마을",
+        "category": "경관/한식문화",
+        "time": "02:30 PM",
+        "description": "금속과 유리로 가득한 미래 신도심 가운데 우아하게 들어앉은 기와 마당 단지입니다. 고풍스러운 기와 너머 마천루가 겹쳐 들어오는 송도 특유 of 현대적 조화를 선사합니다.",
+        "image": "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 연수구 테크노파크로 180",
+        "link": "https://map.naver.com"
+      },
+      {
+        "id": "place-songdo-5",
+        "name": "트라이보울 (Tri-bowl)",
+        "category": "건축/예술공간",
+        "time": "03:30 PM",
+        "description": "세 개의 대형 물방울 그릇 모양이 결합되어 물 위에 떠 있는 형태를 구현한 예술 건축물입니다. 내부에 마련된 현대미술 전시장과 음악 공연장을 둘러보며 인문학적 깊이를 채웁니다.",
+        "image": "https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 연수구 인천타워대로 250",
+        "link": "https://map.naver.com"
+      },
+      {
+        "id": "place-songdo-6",
+        "name": "송도 NC큐브 커낼워크",
+        "category": "상권/테라스가로",
+        "time": "05:00 PM",
+        "description": "중앙을 흐르는 조용한 수로를 양옆에 끼고 봄·여름·가을·겨울 4개 동으로 이루어진 유럽식 야외 상업 지구입니다. 소상공인 카페와 한적한 편집숍들이 가득해 코스의 마지막 소비와 담소를 유도합니다.",
+        "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 연수구 아트센터대로 149",
+        "link": "https://map.naver.com"
+      }
+    ]
+  },
+  {
+    "id": "course-incheon-history",
+    "title": "코스 ③ 역사 — 인천의 전쟁과 개항 역사를 따라 걷는 시간여행",
+    "subtitle": "차이나타운의 과밀에서 벗어나 아픈 역사, 정겨운 전통시장과 헌책방의 정취를 더듬는 코스",
+    "description": "북적이는 차이나타운·월미도의 대형 관광지 대신, 인천상륙작전의 장엄한 평화 서사에서 시작해 근대 최초 대불호텔의 깊은 향취, 그리고 오랜 원도심인 배다리 헌책방 골목의 서정을 전적으로 잇는 전 구간 밀도 있는 도보 역사 산책입니다.",
+    "thumbnail": "https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1200&q=80",
+    "region": "인천 원도심 (Historical Area)",
+    "duration": "당일 코스 (6시간)",
+    "theme": "인천의 기억 · 원도심",
+    "likes": 0,
+    "views": 1,
+    "author": "근대사 골목 보존 기획자",
+    "createdAt": "2026-06-30",
+    "layout": "timeline",
+    "seoTitle": "코스 ③ 역사 — 인천의 전쟁과 개항 역사 시간여행 | 로컬커넥터즈",
+    "seoDesc": "인천상륙작전기념관, 시립박물관, 개항장 신포국제시장, 최초의 대불호텔 및 드라마 도깨비의 배다리 헌책방거리를 잇는 인문학 도보 여행.",
+    "seoKeywords": "인천개항장, 배다리헌책방, 신포국제시장, 대불호텔, 인천상륙작전기념관, 인천시립박물관, 개항장박물관",
+    "places": [
+      {
+        "id": "place-history-1",
+        "name": "인천상륙작전기념관",
+        "category": "기념관/근대사",
+        "time": "10:00 AM",
+        "description": "1950년 9월 15일 자유와 평화를 수호하기 위해 단행된 역사적인 인천상륙작전을 숭고하게 기리는 곳입니다. 유명 건축가 김수근이 거칠게 깎아지른 청량산 자락을 조화롭게 조형한 대형 대칭 기념 구조물 자체가 묵직한 사색을 줍니다.",
+        "image": "https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 연수구 청량로 138",
+        "link": "https://map.naver.com"
+      },
+      {
+        "id": "place-history-2",
+        "name": "인천시립박물관",
+        "category": "종합박물관/지역사",
+        "time": "11:30 AM",
+        "description": "선사시대 패총 유물부터 고대 백제의 교역, 격동의 개항기와 전쟁사를 아우르는 지방 최초의 공립 박물관입니다. 다가올 도보 역사 골목 탐방에 든든한 깊이를 채우는 오리엔테이션 스팟입니다.",
+        "image": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 연수구 청량로160번길 26",
+        "link": "https://map.naver.com"
+      },
+      {
+        "id": "place-history-3",
+        "name": "신포국제시장",
+        "category": "전통시장/로컬식음",
+        "time": "01:00 PM",
+        "description": "개항기 시절 외국 상인들이 한데 모여 농산물과 해산물공환하며 시작된 유서 깊은 인천 최초의 상설 재래시장입니다. 전설적인 바삭함의 신포 닭강정과 공갈빵 등 다채로운 로컬 먹거리와 함께 맛있는 점심 식사를 나눕니다.",
+        "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 중구 우현로49번길 11-5",
+        "link": "https://map.naver.com"
+      },
+      {
+        "id": "place-history-4",
+        "name": "인천개항박물관",
+        "category": "박물관/근대건축",
+        "time": "02:30 PM",
+        "description": "과거 일본제일은행 인천지점이었던 르네상스 양식의 고색창연한 붉은 벽돌 석조식 근대 건축물을 보존 복원한 곳입니다. 최초의 증기기관차 모형, 우편제도 등 개항을 통한 한반도 근대 문물의 탄생과 아픔을 비춥니다.",
+        "image": "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 중구 신포로23번길 83",
+        "link": "https://map.naver.com"
+      },
+      {
+        "id": "place-history-5",
+        "name": "대불호텔전시관",
+        "category": "전시관/국제유산",
+        "time": "03:30 PM",
+        "description": "1888년 개항으로 물밀듯 밀려오던 외국 사절들과 외교관들이 마차에서 내려 최초로 머무르던 우리나라 최초의 서양식 호텔 건물터에 옛 벽돌 그대로 고아하게 복원된 아카이빙 전시관입니다. 피아노 소리가 울리던 당시의 응접실 분위기를 체험합니다.",
+        "image": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 중구 신포로23번길 101",
+        "link": "https://map.naver.com"
+      },
+      {
+        "id": "place-history-6",
+        "name": "배다리 헌책방거리",
+        "category": "골목상권/북카페",
+        "time": "04:30 PM",
+        "description": "영화와 드라마 \"도깨비\" 속 아늑한 노란 벽의 배경으로 나온 유구한 아벨서점, 한미서점 등 묵은 종이 내음 가득한 인천 최고의 로컬 지성 골목입니다. 낡은 책장 사이에 숨겨진 마음의 평화와 소소한 보물을 소장하며 여정을 따스하게 매듭짓습니다.",
+        "image": "https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 동구 금곡로 9",
+        "link": "https://map.naver.com"
+      }
+    ]
+  },
+  {
+    "id": "course-incheon-campus",
+    "title": "코스 ④ 캠퍼스 — 글로벌 캠퍼스와 청년문화를 만나는 여행",
+    "subtitle": "연세대 캠퍼스, 한적한 생태 숲길을 따라 해외 명문대 연합단지 및 청년들의 트리플스트리트 상권 융합 코스",
+    "description": "대학생 아키비스트들의 청량한 시각을 담아 단순히 유람하는 탐방에서 벗어나 \"대학역사숲길 → 글로벌 교육 지평 → 트렌디한 청년 상권\"으로 흐르는 이국적이고 다채로운 송도국제도시의 생활형 교육·문화 코스입니다.",
+    "thumbnail": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=80",
+    "region": "인천 글로벌대학가 (Campus District)",
+    "duration": "당일 코스 (5~6시간)",
+    "theme": "청년 · 글로벌 문화",
+    "likes": 0,
+    "views": 0,
+    "author": "글로벌 캠퍼스 대학생 아키비스트",
+    "createdAt": "2026-06-30",
+    "layout": "gallery",
+    "seoTitle": "코스 ④ 캠퍼스 — 글로벌 캠퍼스와 청년문화를 만나는 여행 | 로컬커넥터즈",
+    "seoDesc": "연세대 국제캠퍼스, 아름다운 언더우드 도서관, 미추홀생태공원, 해외 연합 교육단지 인천글로벌캠퍼스(IGC) 및 활기찬 트리플스트리트 청년 상권 연계 도보 루트.",
+    "seoKeywords": "인천캠퍼스, 연세대국제캠퍼스, 인천글로벌캠퍼스, IGC, 미추홀공원, 트리플스트리트, 캠퍼스타운, 송도여행",
+    "places": [
+      {
+        "id": "place-campus-1",
+        "name": "캠퍼스타운역 (인천1호선)",
+        "category": "역사/교통허브",
+        "time": "11:00 AM",
+        "description": "지하철 인천1호선 대학가 초입에 위치해 등하교 청년들의 역동적인 청량감과 열정을 고스란히 맞이해주는 여정의 기념비적인 스타팅 포인트입니다.",
+        "image": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 연수구 경원대로 지하 115",
+        "link": "https://map.naver.com"
+      },
+      {
+        "id": "place-campus-2",
+        "name": "연세대학교 국제캠퍼스",
+        "category": "대학교/캠퍼스산책",
+        "time": "11:30 AM",
+        "description": "웅장하고 아늑한 붉은 벽돌풍 고딕 양식 건축들과 정연하게 조경된 중앙 광장 잔디밭이 매력적인 친환경 학풍 단지입니다. 복잡한 차도를 피해 평화로운 걷기 예찬을 실천합니다.",
+        "image": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 연수구 송도과학로 85",
+        "link": "https://map.naver.com"
+      },
+      {
+        "id": "place-campus-3",
+        "name": "캠퍼스 국제도서관 (언더우드기념도서관)",
+        "category": "캠퍼스/학습문화",
+        "time": "01:00 PM",
+        "description": "미래지향적인 은빛 유리 커튼월 외벽과 유선형 인테리어의 극치를 선보이는 캠퍼스 속 지식의 성전입니다. 소음 없이 빛나는 청년들의 배움을 향한 뜨거운 지성 에너지를 안온하게 감상합니다.",
+        "image": "https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 연수구 송도과학로 85",
+        "link": "https://map.naver.com"
+      },
+      {
+        "id": "place-campus-4",
+        "name": "미추홀생태공원",
+        "category": "자연/전통생태",
+        "time": "02:00 PM",
+        "description": "고층 아파트와 대학가 한가운데 고즈넉한 대안처럼 펼쳐진 대형 전통 양식 생태공원입니다. 연못을 품은 아름다운 기와 정자 마당과 솔바람 부는 대나무 숲길이 바쁜 도시 여정의 완벽한 쉼표를 선사합니다.",
+        "image": "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 연수구 해돋이로 51",
+        "link": "https://map.naver.com"
+      },
+      {
+        "id": "place-campus-5",
+        "name": "인천글로벌캠퍼스 (IGC)",
+        "category": "캠퍼스/글로벌학풍",
+        "time": "03:30 PM",
+        "description": "미국의 유명 명문대(뉴욕주립대, 유타대, 조지메이슨대 등) 및 유럽 대학 분교들이 하나의 유기적 지성 장벽 없는 연합 인프라를 구축한 첨단 교육 타운입니다. 글로벌하고 이국적인 캠퍼스 분위기를 만끽할 수 있습니다.",
+        "image": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 연수구 송도문화로 119",
+        "link": "https://map.naver.com"
+      },
+      {
+        "id": "place-campus-6",
+        "name": "송도 트리플스트리트",
+        "category": "상권/청년거리",
+        "time": "04:30 PM",
+        "description": "지하 상업가로와 지상 공중 보행덱이 한데 결합되어 있는 초현대적인 복합 청년 스트리트입니다. 아늑한 디저트 카페, 예술적인 편집숍, 다양한 테마 펍과 현지 맛집들이 빼곡해 기분 좋은 마지막 소통과 식사 문화를 보냅니다.",
+        "image": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=800&q=80",
+        "address": "인천광역시 연수구 송도과학로16번길 33-1",
+        "link": "https://map.naver.com"
+      }
+    ]
+  }
+]
