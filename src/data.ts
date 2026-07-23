@@ -365,13 +365,9 @@ export function getSavedCourses(): TravelCourse[] {
   if (data) {
     try {
       const parsed = JSON.parse(data);
-      // Migrate older courses if they don't contain our new 4 courses
-      const hasNewCourses = parsed.some((c: TravelCourse) => c.id === 'course-incheon-yeongjong');
-      if (!hasNewCourses) {
-        safeSetItem('local_connectors_courses', JSON.stringify(DEFAULT_COURSES));
-        return DEFAULT_COURSES;
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
       }
-      return parsed;
     } catch (e) {
       return DEFAULT_COURSES;
     }

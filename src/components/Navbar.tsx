@@ -1,5 +1,5 @@
 import React from 'react';
-import { Compass, Settings2, RotateCcw, Sparkles } from 'lucide-react';
+import { Compass, Settings2, RotateCcw, Lock, LogOut } from 'lucide-react';
 import { WebsiteSettings } from '../types';
 
 interface NavbarProps {
@@ -7,9 +7,20 @@ interface NavbarProps {
   onChangeTab: (tab: 'explorer' | 'admin') => void;
   settings: WebsiteSettings;
   onReset: () => void;
+  isAdminAuthenticated: boolean;
+  onRequestAdminAuth: () => void;
+  onAdminLogout: () => void;
 }
 
-export default function Navbar({ currentTab, onChangeTab, settings, onReset }: NavbarProps) {
+export default function Navbar({
+  currentTab,
+  onChangeTab,
+  settings,
+  onReset,
+  isAdminAuthenticated,
+  onRequestAdminAuth,
+  onAdminLogout,
+}: NavbarProps) {
   // Theme Color mappings
   const themeMap = {
     navy: {
@@ -94,33 +105,57 @@ export default function Navbar({ currentTab, onChangeTab, settings, onReset }: N
               <span>로컬 매거진</span>
             </button>
 
-            <button
-              id="nav-admin-btn"
-              onClick={() => onChangeTab('admin')}
-              className={`flex items-center space-x-1.5 px-4 py-2 rounded-full text-xs font-medium transition-all duration-200 ${
-                currentTab === 'admin' ? activeTheme.btnActive : activeTheme.btnInactive
-              }`}
-            >
-              <Settings2 className="w-4 h-4" />
-              <span>CMS 대시보드</span>
-            </button>
+            {/* Show Admin CMS Dashboard tab only when authenticated */}
+            {isAdminAuthenticated ? (
+              <>
+                <button
+                  id="nav-admin-btn"
+                  onClick={() => onChangeTab('admin')}
+                  className={`flex items-center space-x-1.5 px-4 py-2 rounded-full text-xs font-medium transition-all duration-200 ${
+                    currentTab === 'admin' ? activeTheme.btnActive : activeTheme.btnInactive
+                  }`}
+                >
+                  <Settings2 className="w-4 h-4" />
+                  <span>CMS 대시보드</span>
+                </button>
 
-            {/* Separator */}
-            <div className={`h-6 w-[1px] bg-white/10 hidden sm:block`} />
+                {/* Separator */}
+                <div className={`h-6 w-[1px] bg-white/10 hidden sm:block`} />
 
-            {/* Reset Data Button */}
-            <button
-              id="reset-data-btn"
-              onClick={() => {
-                if (window.confirm('모든 데이터(게시글, 웹 설정)를 기본 샘플 데이터 상태로 초기화하시겠습니까?')) {
-                  onReset();
-                }
-              }}
-              title="데이터 초기화"
-              className="p-2 rounded-full text-white/40 hover:text-white/80 hover:bg-white/5 transition-all duration-200"
-            >
-              <RotateCcw className="w-4 h-4" />
-            </button>
+                {/* Reset Data Button */}
+                <button
+                  id="reset-data-btn"
+                  onClick={() => {
+                    if (window.confirm('모든 데이터(게시글, 웹 설정)를 기본 샘플 데이터 상태로 초기화하시겠습니까?')) {
+                      onReset();
+                    }
+                  }}
+                  title="데이터 초기화"
+                  className="p-2 rounded-full text-white/40 hover:text-white/80 hover:bg-white/5 transition-all duration-200"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                </button>
+
+                {/* Admin Logout Button */}
+                <button
+                  onClick={onAdminLogout}
+                  title="관리자 로그아웃"
+                  className="flex items-center space-x-1 px-3 py-1.5 rounded-full text-xs font-medium text-amber-400/80 hover:text-amber-300 hover:bg-amber-500/10 transition-all border border-amber-500/20"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span className="hidden md:inline">로그아웃</span>
+                </button>
+              </>
+            ) : (
+              /* Hidden lock button for admin authentication prompt */
+              <button
+                onClick={onRequestAdminAuth}
+                title="관리자 전용 로그인"
+                className="p-2 rounded-full text-white/20 hover:text-white/60 hover:bg-white/5 transition-all duration-200"
+              >
+                <Lock className="w-4 h-4" />
+              </button>
+            )}
           </div>
         </div>
       </div>

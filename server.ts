@@ -9,7 +9,8 @@ const PROPOSALS_FILE = path.join(process.cwd(), 'proposals.json');
 const COURSES_FILE = path.join(process.cwd(), 'courses.json');
 const SETTINGS_FILE = path.join(process.cwd(), 'settings.json');
 
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Ensure proposals file exists
 if (!fs.existsSync(PROPOSALS_FILE)) {

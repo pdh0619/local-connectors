@@ -6,6 +6,7 @@ import Explorer from './components/Explorer';
 import CourseDetail from './components/CourseDetail';
 import AdminDashboard from './components/AdminDashboard';
 import ProposeCourseModal from './components/ProposeCourseModal';
+import AdminAuthModal from './components/AdminAuthModal';
 import { TravelCourse, WebsiteSettings } from './types';
 import { 
   getSavedSettings, saveSettings, getSavedCourses, saveCourses, resetToDefaults 
@@ -17,13 +18,54 @@ export default function App() {
   const [settings, setSettings] = useState<WebsiteSettings>(getSavedSettings());
   const [courses, setCourses] = useState<TravelCourse[]>(getSavedCourses());
   
-  // Navigation states
+  // Navigation & Authentication states
   const [currentTab, setCurrentTab] = useState<'explorer' | 'admin'>('explorer');
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean>(() => {
+    try {
+      return sessionStorage.getItem('local_connectors_admin_auth') === 'true';
+    } catch (e) {
+      return false;
+    }
+  });
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   // Proposal modal states
   const [isProposalModalOpen, setIsProposalModalOpen] = useState(false);
   const [showProposalSuccessToast, setShowProposalSuccessToast] = useState(false);
+
+  // Handle Tab Change with Admin Auth Guard
+  const handleTabChange = (tab: 'explorer' | 'admin') => {
+    if (tab === 'admin' && !isAdminAuthenticated) {
+      setIsAuthModalOpen(true);
+      return;
+    }
+    setCurrentTab(tab);
+    if (tab === 'explorer') {
+      setSelectedCourseId(null);
+    }
+  };
+
+  const handleAdminAuthSuccess = () => {
+    setIsAdminAuthenticated(true);
+    setIsAuthModalOpen(false);
+    setCurrentTab('admin');
+    try {
+      sessionStorage.setItem('local_connectors_admin_auth', 'true');
+    } catch (e) {
+      // ignore
+    }
+  };
+
+  const handleAdminLogout = () => {
+    setIsAdminAuthenticated(false);
+    setCurrentTab('explorer');
+    try {
+      sessionStorage.removeItem('local_connectors_admin_auth');
+    } catch (e) {
+      // ignore
+    }
+  };
 
   // Sync state to body element's classes for the global font customization
   useEffect(() => {
@@ -214,19 +256,17 @@ export default function App() {
       {/* Universal Top Premium Header */}
       <Navbar
         currentTab={currentTab}
-        onChangeTab={(tab) => {
-          setCurrentTab(tab);
-          if (tab === 'explorer') {
-            setSelectedCourseId(null); // Go back home
-          }
-        }}
+        onChangeTab={handleTabChange}
         settings={settings}
         onReset={handleResetData}
+        isAdminAuthenticated={isAdminAuthenticated}
+        onRequestAdminAuth={() => setIsAuthModalOpen(true)}
+        onAdminLogout={handleAdminLogout}
       />
 
       {/* Main View Workspace Routing */}
       <main className="flex-grow">
-        {currentTab === 'explorer' ? (
+        {currentTab === 'explorer' || !isAdminAuthenticated ? (
           /* Public magazine view */
           selectedCourseId && activeCourse ? (
             /* Inside article reader */
@@ -269,6 +309,13 @@ export default function App() {
           />
         )}
       </main>
+
+      {/* Admin Auth Modal */}
+      <AdminAuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onSuccess={handleAdminAuthSuccess}
+      />
 
       {/* Propose Course Modal & Toast Notification */}
       <ProposeCourseModal
@@ -325,6 +372,17 @@ export default function App() {
                   <li><a href="#explorer" onClick={() => setSelectedCourseId(null)} className="hover:text-amber-400 transition-colors">큐레이션 전체 보기</a></li>
                   <li><a href="#about" onClick={() => alert('로컬커넥터즈: 우리는 맹목적인 소비를 지양하고 지속 가능한 슬로우 여행, 정체성이 뚜렷한 브랜드를 사랑하는 에디터 협동조합입니다.')} className="hover:text-amber-400 transition-colors">매니페스토 (철학)</a></li>
                   <li><a href="#apply" onClick={() => alert('큐레이터 파트너십: 나만 아는 숨겨진 동네 골목을 아름다운 지도로 기고해 주실 큐레이터를 상시 모집하고 있습니다 (recruit@localconnectors.com).')} className="hover:text-amber-400 transition-colors">에디터 파트너십 지원</a></li>
+                  <li className="pt-2">
+                    {isAdminAuthenticated ? (
+                      <button onClick={() => setCurrentTab('admin')} className="text-amber-400 hover:underline font-medium">
+                        ✓ CMS 대시보드 바로가기
+                      </button>
+                    ) : (
+                      <button onClick={() => setIsAuthModalOpen(true)} className="text-stone-500 hover:text-amber-400 transition-colors text-left flex items-center space-x-1">
+                        <span>🔒 큐레이터 CMS 로그인</span>
+                      </button>
+                    )}
+                  </li>
                 </ul>
               </div>
 

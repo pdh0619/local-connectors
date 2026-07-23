@@ -291,21 +291,62 @@ export default function AdminDashboard({ courses, settings, onSaveSettings, onSa
     setTimeout(() => setToastMessage(null), 3000);
   };
 
-  // Helper to handle local file uploads and read them as Base64 strings
-  const handleImageUpload = (
+  // Helper to compress uploaded image files on Canvas to optimize size & persistence
+  const compressImage = (file: File, maxWidth = 1600, quality = 0.82): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+
+          if (width > maxWidth || height > maxWidth) {
+            if (width > height) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            } else {
+              width = Math.round((width * maxWidth) / height);
+              height = maxWidth;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+
+          const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            resolve(event.target?.result as string);
+            return;
+          }
+
+          ctx.drawImage(img, 0, 0, width, height);
+          const compressed = canvas.toDataURL('image/jpeg', quality);
+          resolve(compressed);
+        };
+        img.onerror = () => resolve(event.target?.result as string);
+        img.src = event.target?.result as string;
+      };
+      reader.onerror = (err) => reject(err);
+      reader.readAsDataURL(file);
+    });
+  };
+
+  // Helper to handle local file uploads and read them as optimized Base64 strings
+  const handleImageUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
     setImageState: (val: string) => void
   ) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        if (typeof reader.result === 'string') {
-          setImageState(reader.result);
-          triggerToast('이미지 파일이 성공적으로 업로드되었습니다!');
-        }
-      };
-      reader.readAsDataURL(file);
+      try {
+        const compressedBase64 = await compressImage(file);
+        setImageState(compressedBase64);
+        triggerToast('이미지 파일이 성공적으로 최적화되어 업로드되었습니다!');
+      } catch (err) {
+        console.error('Image upload failed:', err);
+      }
     }
   };
 
@@ -1672,17 +1713,16 @@ export default function AdminDashboard({ courses, settings, onSaveSettings, onSa
                                 type="file"
                                 accept="image/*"
                                 className="hidden"
-                                onChange={(e) => {
+                                onChange={async (e) => {
                                   const file = e.target.files?.[0];
                                   if (file) {
-                                    const reader = new FileReader();
-                                    reader.onloadend = () => {
-                                      if (typeof reader.result === 'string') {
-                                        updatePlaceFieldInForm(index, 'image', reader.result);
-                                        triggerToast('장소 사진이 성공적으로 업로드되었습니다!');
-                                      }
-                                    };
-                                    reader.readAsDataURL(file);
+                                    try {
+                                      const compressed = await compressImage(file);
+                                      updatePlaceFieldInForm(index, 'image', compressed);
+                                      triggerToast('장소 사진이 성공적으로 최적화되어 업로드되었습니다!');
+                                    } catch (err) {
+                                      console.error('Place image upload failed:', err);
+                                    }
                                   }
                                 }}
                               />
